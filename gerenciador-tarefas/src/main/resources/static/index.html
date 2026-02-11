@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciador de Tarefas ESIG</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+<h2 class="mb-4">Gerenciador de Tarefas</h2>
+
+<div class="card card-body mb-4">
+    <div class="row g-3">
+        <div class="col-md-4"><input type="text" id="titulo" class="form-control" placeholder="Título"></div>
+        <div class="col-md-4"><input type="text" id="responsavel" class="form-control" placeholder="Responsável"></div>
+        <div class="col-md-2">
+            <select id="prioridade" class="form-select">
+                <option value="Alta">Alta</option>
+                <option value="Média">Média</option>
+                <option value="Baixa">Baixa</option>
+            </select>
+        </div>
+        <div class="col-md-2"><button onclick="salvar()" class="btn btn-primary w-100">Cadastrar</button></div>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th><th>Título</th><th>Responsável</th><th>Prioridade</th><th>Ações</th>
+    </tr>
+    </thead>
+    <tbody id="tabela-corpo"></tbody>
+</table>
+
+<script>
+    const API = '/api/tarefas';
+
+    async function listar() {
+        const res = await fetch(API);
+        const tarefas = await res.json();
+        const corpo = document.getElementById('tabela-corpo');
+        corpo.innerHTML = tarefas.map(t => `
+                <tr>
+                    <td>${t.id}</td><td>${t.titulo}</td><td>${t.responsavel}</td>
+                    <td><span class="badge bg-secondary">${t.prioridade}</span></td>
+                    <td><button onclick="deletar(${t.id})" class="btn btn-danger btn-sm">Excluir</button></td>
+                </tr>
+            `).join('');
+    }
+
+    async function salvar() {
+        const tarefa = {
+            titulo: document.getElementById('titulo').value,
+            responsavel: document.getElementById('responsavel').value,
+            prioridade: document.getElementById('prioridade').value
+        };
+        await fetch(API, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(tarefa)
+        });
+        listar();
+    }
+
+    async function deletar(id) {
+        await fetch(`${API}/${id}`, { method: 'DELETE' });
+        listar();
+    }
+
+    listar();
+</script>
+</body>
+</html>

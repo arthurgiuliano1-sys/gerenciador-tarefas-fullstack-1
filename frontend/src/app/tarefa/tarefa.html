@@ -1,0 +1,107 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Gerenciador de Tarefas</h2>
+
+  <div class="card p-4 mb-4 shadow-sm">
+    <h4>{{ tarefa.id ? 'Editar Tarefa' : 'Cadastrar Tarefa' }}</h4>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Título</label>
+        <input type="text" class="form-control" [(ngModel)]="tarefa.titulo" placeholder="Digite o título">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Responsável</label>
+        <input type="text" class="form-control" [(ngModel)]="tarefa.responsavel" placeholder="Nome do responsável">
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-control" rows="2" [(ngModel)]="tarefa.descricao" placeholder="Detalhes da tarefa"></textarea>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Prioridade</label>
+        <select class="form-select" [(ngModel)]="tarefa.prioridade">
+          <option value="" disabled selected>Selecionar</option>
+          <option value="Alta">Alta</option>
+          <option value="Média">Média</option>
+          <option value="Baixa">Baixa</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Deadline (Data Limite)</label>
+        <input type="date" class="form-control" [(ngModel)]="tarefa.deadline">
+      </div>
+      <div class="col-md-4 d-flex align-items-end">
+        <button class="btn btn-primary w-100" (click)="salvar()"
+                [disabled]="!tarefa.titulo || !tarefa.responsavel || !tarefa.prioridade || !tarefa.deadline">
+          {{ tarefa.id ? 'Salvar Alteração' : 'Cadastrar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card p-3 mb-4 bg-light">
+    <h5>Listagem de Tarefas</h5>
+    <div class="row g-2">
+      <div class="col-md-2">
+        <input type="number" class="form-control" placeholder="Número (ID)"
+               [(ngModel)]="filtroId" (keyup)="buscar()">
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Título ou Descrição"
+               [(ngModel)]="filtro" (keyup)="buscar()">
+      </div>
+      <div class="col-md-4">
+        <select class="form-select" [(ngModel)]="statusFiltro" (change)="buscar()">
+          <option value="">Situação: Todas</option>
+          <option value="Em andamento">Em andamento</option>
+          <option value="Concluída">Concluída</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <table class="table table-hover mb-0">
+      <thead class="table-dark">
+      <tr>
+        <th>Número</th>
+        <th>Título</th>
+        <th>Responsável</th>
+        <th>Prioridade</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let t of tarefasFiltradas">
+        <td>{{ t.id }}</td>
+        <td>{{ t.titulo }}</td>
+        <td>{{ t.responsavel }}</td>
+        <td>
+            <span class="badge" [ngClass]="{
+              'bg-danger': t.prioridade === 'Alta',
+              'bg-warning': t.prioridade === 'Média',
+              'bg-info': t.prioridade === 'Baixa'
+            }">{{ t.prioridade }}</span>
+        </td>
+        <td>
+          <div class="d-flex gap-1">
+            <button class="btn btn-outline-warning btn-sm" (click)="preencherCampos(t)" title="Editar">
+              <i class="bi bi-pencil"></i> Editar
+            </button>
+            <button class="btn btn-outline-success btn-sm" (click)="concluir(t)" *ngIf="t.status !== 'Concluída'" title="Concluir">
+              Concluir
+            </button>
+            <button class="btn btn-outline-danger btn-sm" (click)="excluir(t.id)" title="Excluir">
+              Excluir
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="tarefasFiltradas.length === 0">
+        <td colspan="5" class="text-center text-muted">Nenhuma tarefa encontrada.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
