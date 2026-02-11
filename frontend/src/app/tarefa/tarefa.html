@@ -53,7 +53,7 @@
       </div>
       <div class="col-md-4">
         <select class="form-select" [(ngModel)]="statusFiltro" (change)="buscar()">
-          <option value="">Situação: Todas</option>
+          <option value="">Todas</option>
           <option value="Em andamento">Em andamento</option>
           <option value="Concluída">Concluída</option>
         </select>
@@ -67,16 +67,18 @@
       <tr>
         <th>Número</th>
         <th>Título</th>
-        <th>Responsável</th>
+        <th>Descrição</th> <th>Responsável</th>
         <th>Prioridade</th>
-        <th>Ações</th>
+        <th>Situação</th> <th>Ações</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let t of tarefasFiltradas">
         <td>{{ t.id }}</td>
         <td>{{ t.titulo }}</td>
-        <td>{{ t.responsavel }}</td>
+        <td class="text-truncate" style="max-width: 150px;" [title]="t.descricao">
+          {{ t.descricao }}
+        </td> <td>{{ t.responsavel }}</td>
         <td>
             <span class="badge" [ngClass]="{
               'bg-danger': t.prioridade === 'Alta',
@@ -85,22 +87,26 @@
             }">{{ t.prioridade }}</span>
         </td>
         <td>
-          <div class="d-flex gap-1">
-            <button class="btn btn-outline-warning btn-sm" (click)="preencherCampos(t)" title="Editar">
-              <i class="bi bi-pencil"></i> Editar
-            </button>
-            <button class="btn btn-outline-success btn-sm" (click)="concluir(t)" *ngIf="t.status !== 'Concluída'" title="Concluir">
-              Concluir
-            </button>
-            <button class="btn btn-outline-danger btn-sm" (click)="excluir(t.id)" title="Excluir">
-              Excluir
-            </button>
-          </div>
-        </td>
+            <span class="badge rounded-pill" [ngClass]="{
+              'bg-success': t.status === 'Concluída',
+              'bg-secondary': t.status !== 'Concluída'
+            }">{{ t.status }}</span>
+        </td> <td>
+        <div class="d-flex gap-1">
+          <button class="btn btn-outline-warning btn-sm" (click)="preencherCampos(t)" title="Editar">
+            <i class="bi bi-pencil"></i> Editar
+          </button>
+          <button class="btn btn-outline-success btn-sm" (click)="concluir(t)" *ngIf="t.status !== 'Concluída'" title="Concluir">
+            Concluir
+          </button>
+          <button class="btn btn-outline-danger btn-sm" (click)="excluir(t.id)" title="Excluir">
+            Excluir
+          </button>
+        </div>
+      </td>
       </tr>
       <tr *ngIf="tarefasFiltradas.length === 0">
-        <td colspan="5" class="text-center text-muted">Nenhuma tarefa encontrada.</td>
-      </tr>
+        <td colspan="7" class="text-center text-muted">Nenhuma tarefa encontrada.</td> </tr>
       </tbody>
     </table>
   </div>

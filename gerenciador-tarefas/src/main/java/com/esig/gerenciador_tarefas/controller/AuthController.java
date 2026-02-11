@@ -1,4 +1,4 @@
-package com.esig.gerenciador_tarefas.controller; // Corrigido para a pasta real
+package com.esig.gerenciador_tarefas.controller;
 
 import com.esig.gerenciador_tarefas.model.Usuario;
 import com.esig.gerenciador_tarefas.repository.UsuarioRepository;

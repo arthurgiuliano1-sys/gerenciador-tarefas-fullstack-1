@@ -18,7 +18,7 @@ export interface Tarefa {
 
 export class TarefaService {
 
-  // A URL que aponta para o seu projeto Spring Boot (Porta 8080)
+
   private API = 'http://localhost:8080/api/tarefas';
 
   constructor(private http: HttpClient) {

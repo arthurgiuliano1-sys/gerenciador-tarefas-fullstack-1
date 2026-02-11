@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Data // Se o seu projeto não usa Lombok, você precisará criar os Getters e Setters manualmente
+@Data
 public class Usuario {
 
     @Id

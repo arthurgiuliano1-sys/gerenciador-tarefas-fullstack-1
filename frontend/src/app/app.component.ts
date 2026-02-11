@@ -7,7 +7,7 @@ import {RouterOutlet} from '@angular/router';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterOutlet], // Importações necessárias
+  imports: [CommonModule, FormsModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   tarefasFiltradas: any[] = [];
   tarefa: any = {};
   filtro: string = '';
-  statusFiltro: string = ''; // Variável para o novo filtro de status
+  statusFiltro: string = '';
 
   constructor(private service: TarefaService) {}
 
