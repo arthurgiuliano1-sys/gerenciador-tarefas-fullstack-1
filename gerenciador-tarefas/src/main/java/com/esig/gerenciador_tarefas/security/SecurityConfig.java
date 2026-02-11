@@ -35,11 +35,16 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Login liberado
+                        .requestMatchers("/api/auth/**",
+                                         "/v3/api-docs/**",
+                                         "/swagger-ui/**",
+                                         "/swagger-ui.html"
+                        ).permitAll()
+
                         //.anyRequest().permitAll()
-                        .anyRequest().authenticated() // Tudo o resto exige o Token
+                        .anyRequest().authenticated()
                 )
-                // Usa o filtro azul que você criou
+
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
