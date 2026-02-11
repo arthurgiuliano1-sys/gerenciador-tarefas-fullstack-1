@@ -1,6 +1,6 @@
 # 📝 Gerenciador de Tarefas Full Stack
 
-Este atividade de gestão de tarefas.
+Atividade de gestão de tarefas.
 
 ## 🛡️ Segurança Implementada
 - **Autenticação Stateless:** Uso de **JSON Web Token (JWT)** para controle de sessões.
