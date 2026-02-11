@@ -8,6 +8,6 @@ Este atividade de gestão de tarefas.
 - **Proteção de Rotas:** Filtros customizados para garantir que apenas usuários autenticados acessem a API.
 
 ## 🚀 Tecnologias
-- **Backend:** Java 21, Spring Boot, Spring Security, JPA/Hibernate.
+- **Backend:** Java 21, Spring Boot 3.5.10, Spring Security, JPA/Hibernate.
 - **Frontend:** Angular.
 - **Banco de Dados:** PostgreSQL.
